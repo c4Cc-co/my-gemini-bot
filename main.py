@@ -8,7 +8,7 @@ API_KEY = os.getenv("API_KEY")
 
 # إعداد جيمناي بنسخة فلاش المستقرة
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('models/gemini-1.5-flash')
 bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
