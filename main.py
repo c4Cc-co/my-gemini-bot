@@ -13,14 +13,20 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "تم التحديث! أنا الآن جاهز للرد.")
+    bot.reply_to(message, "تم التحديث بنجاح! أنا الآن جاهز للرد على استفساراتك.")
 
 @bot.message_handler(func=lambda message: True)
 def chat(message):
     try:
+        # إرسال النص لجيمناي والحصول على الرد
         response = model.generate_content(message.text)
-        bot.reply_to(message, response.text)
+        if response.text:
+            bot.reply_to(message, response.text)
+        else:
+            bot.reply_to(message, "اعتذر، لم أستطع تكوين رد حالياً.")
     except Exception as e:
-        bot.reply_to(message, f"خطأ في المفتاح أو الخدمة: {str(e)}")
+        # إرسال رسالة توضح نوع الخطأ إذا حدث
+        bot.reply_to(message, f"حدث خطأ في الاتصال بجيمناي: {str(e)}")
 
+# تشغيل البوت بشكل مستمر
 bot.infinity_polling()
